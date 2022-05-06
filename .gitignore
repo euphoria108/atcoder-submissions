@@ -2,3 +2,5 @@ venv/
 geckodriver.log
 .envrc
 .vscode
+# compiled binary
+a.out
