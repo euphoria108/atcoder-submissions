@@ -3,7 +3,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <set>
 
 using namespace std;
 
@@ -59,79 +58,46 @@ template <typename T, typename S> inline void print(const vector<pair<T, S>>& v)
 template <typename T> inline bool chmin(T& a, const T& b) {bool compare = a > b; if (a > b) a = b; return compare;}
 template <typename T> inline bool chmax(T& a, const T& b) {bool compare = a < b; if (a < b) a = b; return compare;}
 
-void makeCombiUtil(vector<vector<int> >& ans,
-    vector<int>& tmp, int n, int left, int k)
-{
-    if (k == 0) {
-        ans.push_back(tmp);
+
+void solve(string s) {
+    if (s.at(0)=='1') {
+        cout << "No" << endl;
         return;
     }
- 
-    for (int i = left; i <= n; ++i)
-    {
-        tmp.push_back(i);
-        makeCombiUtil(ans, tmp, n, i + 1, k - 1);
- 
-        tmp.pop_back();
+
+    vi col;
+    if (s[6]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[3]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[1]=='1' || s[7]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[4]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[2]=='1' || s[8]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[5]=='1') col.pb(1);
+    else col.pb(0);
+    if (s[9]=='1') col.pb(1);
+    else col.pb(0);
+
+    int before = 0;
+    int count = 0;
+    rep(i, 7) {
+        if (before==0 && col[i]==1) count++;
+        before = col[i];
     }
-}
- 
-vvi makeCombi(int n, int k)
-{
-    vvi ans;
-    vi tmp;
-    makeCombiUtil(ans, tmp, n, 1, k);
-    return ans;
-}
 
-bool solve(vvi a, vvi b, vvi row_cand, vvi col_cand, int h1, int w1, int h2, int w2) {
-    for (auto row_ind : row_cand) {
-        for (auto col_ind : col_cand) {
-            // reduce matrix a
-            vvi new_a;
-            rep(i, h1) {
-                if (find(row_ind.begin(), row_ind.end(), i)==row_ind.end()) continue;
-                vi new_row;
-                rep(j, w1) {
-                    if (find(col_ind.begin(), col_ind.end(), j)==col_ind.end()) continue;
-                    new_row.pb(a[i][j]);
-                }
-                new_a.pb(new_row);
-            }
-
-            // compare
-            rep(i, h2) {
-                rep(j, w2) {
-                    if (new_a[i][j]!=b[i][j]) continue;
-                }
-            }
-            cout << "new a" << endl;
-            rep(i, h2) print(new_a[i]);
-
-            cout << "b" << endl;
-            rep(i, h2) print(b[i]);
-            return true;
-        }
-    }
-    return false;
+    if (count > 1) cout << "Yes" << endl;
+    else cout << "No" << endl;
+    return;
 }
 
 int main() {
-    int h1, w1;
-    cin >> h1 >> w1;
-    vvi a(h1, vi(w1));
-    rep(i, h1) rep(j, w1) cin >> a[i][j];
-    int h2, w2;
-    cin >> h2 >> w2;
-    vvi b(h2, vi(w2));
-    rep(i, h2) rep(j, w2) cin >> b[i][j];
+    string s;
+    cin >> s;
 
-    vvi row_cand = makeCombi(h1, h2);
-    vvi col_cand = makeCombi(w1, w2);
-
-    auto res = solve(a, b, row_cand, col_cand, h1, w1, h2, w2);
-    YesNo(res);
-
+    solve(s);
     return 0;
 }
 

@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <set>
 #include <utility>
 #include <vector>
-#include <set>
 
 using namespace std;
 
@@ -84,54 +84,11 @@ vvi makeCombi(int n, int k)
     return ans;
 }
 
-bool solve(vvi a, vvi b, vvi row_cand, vvi col_cand, int h1, int w1, int h2, int w2) {
-    for (auto row_ind : row_cand) {
-        for (auto col_ind : col_cand) {
-            // reduce matrix a
-            vvi new_a;
-            rep(i, h1) {
-                if (find(row_ind.begin(), row_ind.end(), i)==row_ind.end()) continue;
-                vi new_row;
-                rep(j, w1) {
-                    if (find(col_ind.begin(), col_ind.end(), j)==col_ind.end()) continue;
-                    new_row.pb(a[i][j]);
-                }
-                new_a.pb(new_row);
-            }
-
-            // compare
-            rep(i, h2) {
-                rep(j, w2) {
-                    if (new_a[i][j]!=b[i][j]) continue;
-                }
-            }
-            cout << "new a" << endl;
-            rep(i, h2) print(new_a[i]);
-
-            cout << "b" << endl;
-            rep(i, h2) print(b[i]);
-            return true;
-        }
-    }
-    return false;
-}
-
 int main() {
-    int h1, w1;
-    cin >> h1 >> w1;
-    vvi a(h1, vi(w1));
-    rep(i, h1) rep(j, w1) cin >> a[i][j];
-    int h2, w2;
-    cin >> h2 >> w2;
-    vvi b(h2, vi(w2));
-    rep(i, h2) rep(j, w2) cin >> b[i][j];
-
-    vvi row_cand = makeCombi(h1, h2);
-    vvi col_cand = makeCombi(w1, w2);
-
-    auto res = solve(a, b, row_cand, col_cand, h1, w1, h2, w2);
-    YesNo(res);
-
+    int n, m;
+    cin >> n >> m;
+    vll a(n);
+    rep(i, n) cin >> a[i];
     return 0;
 }
 
